@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Majalah Tunas Cendikia - SMPN 11 Tegal | Edisi Istimewa</title>
+    <!-- Font Awesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0f0e0e;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Background gelap mewah */
+        .magazine-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 25px 50px;
+        }
+
+        /* HEADER GLOBAL */
+        .global-header {
+            text-align: center;
+            margin-bottom: 45px;
+            position: relative;
+        }
+        .logo-magazine {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f5d742, #e6b422, #c9a03d);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 4px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .kepsek-global {
+            background: rgba(255,215,0,0.12);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 22px;
+            border-radius: 60px;
+            margin-top: 12px;
+            backdrop-filter: blur(4px);
+            border: 1px solid #e6b42266;
+        }
+        .kepsek-global i {
+            color: #f5b642;
+            font-size: 1.2rem;
+        }
+
+        /* Tombol edisi (gaya kapsul besar) */
+        .edisi-selector {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin: 25px 0 40px;
+        }
+        .btn-edisi {
+            padding: 14px 30px;
+            font-size: 1rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 80px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-edisi i {
+            font-size: 1.2rem;
+        }
+        .btn-edisi-1 { background: #1e5631; color: #f9eec1; border-bottom: 4px solid #ffd966; }
+        .btn-edisi-2 { background: #b8860b; color: #fff0cc; border-bottom: 4px solid #ffdf8c; }
+        .btn-edisi-3 { background: #1a3c5f; color: #eef5ff; border-bottom: 4px solid #7ab3c8; }
+        .btn-edisi-4 { background: #6b2e3e; color: #ffe1e6; border-bottom: 4px solid #e6a4b4; }
+        .btn-edisi.active {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+            box-shadow: 0 15px 25px -8px black;
+        }
+
+        /* KONTEN EDISI (setiap edisi tampil berbeda total) */
+        .edisi-content {
+            display: none;
+            animation: fadeInUp 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .edisi-content.active-edisi {
+            display: block;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* GRID SETIAP EDISI BEDA */
+        .grid-alam { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+        .grid-prestasi { display: grid; grid-template-columns: repeat(4,1fr); gap: 25px; }
+        .grid-leader { display: grid; grid-template-columns: repeat(2,1fr); gap: 32px; }
+        .grid-sastra { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+
+        /* Kartu universal elegan */
+        .card {
+            background: #fffef7;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: 0.25s ease;
+            box-shadow: 0 12px 20px -10px rgba(0,0,0,0.2);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { transform: translateY(-8px) scale(1.01); }
+        .card-header {
+            padding: 18px 20px 8px;
+            border-bottom: 3px solid;
+        }
+        .card-body {
+            padding: 18px 22px 24px;
+            flex: 1;
+            line-height: 1.55;
+            color: #2c2b26;
+        }
+        .card-footer {
+            padding: 8px 22px 20px;
+        }
+        .read-more {
+            background: none;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tema warna tiap edisi */
+        .tema-alam .card-header { background: #eef5e8; border-bottom-color: #2e7d5e; }
+        .tema-prestasi .card-header { background: #fff3df; border-bottom-color: #d4a017; }
+        .tema-leader .card-header { background: #e3edf5; border-bottom-color: #2c6e9e; }
+        .tema-sastra .card-header { background: #fce9ef; border-bottom-color: #bc6f8c; }
+
+        /* full width */
+        .full-span { grid-column: span 2; }
+        @media (max-width: 1000px) {
+            .grid-alam, .grid-prestasi, .grid-leader, .grid-sastra {
+                grid-template-columns: repeat(2,1fr);
+            }
+            .full-span { grid-column: span 1; }
+        }
+        @media (max-width: 650px) {
+            .grid-alam, .grid-prestasi, .grid-leader, .grid-sastra {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 70px;
+            padding: 25px;
+            color: #ad9e7f;
+            border-top: 1px solid #2f2a24;
+        }
+        .badge-kepsek {
+            font-weight: 600;
+            color: #e6c27a;
+        }
+        hr { border-color: #3e3a33; margin: 20px 0; }
+        h2 {
+            font-family: 'Playfair Display', serif;
+        }
+        .penulis {
+            font-style: italic;
+            color: #8c795e;
+            font-size: 0.75rem;
+            margin-top: 10px;
+        }
+        .highlight {
+            background: #faf3e0;
+            border-radius: 20px;
+            padding: 14px;
+        }
+        i { margin-right: 6px; }
+        button {
+            background: none;
+        }
+        .subjudul-edisi {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            color: #dbae6a;
+        }
+    </style>
+</head>
+<body>
+<div class="magazine-wrapper">
+    <div class="global-header">
+        <div class="logo-magazine"><i class="fas fa-feather-alt"></i> TUNAS CENDIKIA</div>
+        <div class="kepsek-global">
+            <i class="fas fa-crown"></i>
+            <span><strong>Kepala Sekolah : Bapak Sarbini, S.Pd., M.Pd.</strong></span>
+            <i class="fas fa-school"></i>
+        </div>
+        <div style="color:#bbaa82; font-size:0.8rem; margin-top:8px;">Edisi Koleksi Istimewa 2026 | SMP Negeri 11 Kota Tegal</div>
+    </div>
+
+    <div class="edisi-selector">
+        <button class="btn-edisi btn-edisi-1 active" data-edisi="edisiAlam"><i class="fas fa-leaf"></i> EDISI ALAM & FAKTA</button>
+        <button class="btn-edisi btn-edisi-2" data-edisi="edisiPrestasi"><i class="fas fa-trophy"></i> EDISI PRESTASI GEMILANG</button>
+        <button class="btn-edisi btn-edisi-3" data-edisi="edisiLeader"><i class="fas fa-users"></i> EDISI KEPEMIMPINAN</button>
+        <button class="btn-edisi btn-edisi-4" data-edisi="edisiSastra"><i class="fas fa-book-open"></i> EDISI SASTRA & MOZAIK</button>
+    </div>
+
+    <!-- ============== EDISI 1 : TEMA ALAM (HIJAU) ============= -->
+    <div id="edisiAlam" class="edisi-content active-edisi tema-alam">
+        <div class="subjudul-edisi"><i class="fas fa-seedling"></i> EKOLOGI & PENGETAHUAN ALAM</div>
+        <div class="grid-alam">
+            <div class="card">
+                <div class="card-header"><h3><i class="fas fa-sun"></i> Fakta Unik Bunga Matahari</h3></div>
+                <div class="card-body"><p>Bunga matahari bergerak mengikuti arah matahari (fototropisme) – seperti fans yang mengejar idolanya. Ini menghasilkan energi maksimal untuk pertumbuhan.</p><div class="penulis">— Anggita Octaviani</div></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3><i class="fas fa-moon"></i> Wijaya Kusuma: Queen of the Night</h3></div>
+                <div class="card-body"><p>Bunga Wijaya Kusuma mekar sempurna pada pukul 20.00-22.00, puncaknya tengah malam. Bunga istimewa ini hanya mekar semalam dan menjadi simbol keabadian.</p></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3><i class="fas fa-tree"></i> Belajar dari Bencana, Jaga Hutan</h3></div>
+                <div class="card-body"><p>Melestarikan hutan = mengurangi banjir & longsor. Aksi nyata: menanam pohon, bank sampah, dan kampanye go green di sekolah. Spenlas menuju Adiwiyata.</p><button class="read-more" onclick="alert('Siswa diajak ikut Jumat Bersih dan penanaman seribu pohon.')">Aksi nyata <i class="fas fa-arrow-right"></i></button></div>
+            </div>
+            <div class="card full-span">
+                <div class="card-header"><h3><i class="fas fa-chalkboard-user"></i> Motivasi 3D (Daya Juang, Dedikasi, Disiplin)</h3></div>
+                <div class="card-body"><p><strong>Bapak Sarbini, S.Pd., M.Pd.</strong> menekankan pentingnya 3D di era digital: Daya Juang menghadapi informasi hoax, Dedikasi sebagai pengorbanan & tanggung jawab, Disiplin sebagai kunci keberhasilan. "Generasi emas Indonesia harus berpegang teguh pada 3D sambil melestarikan budaya lokal."</p><div class="penulis">— Sambutan Kepala Sekolah, Edisi III/2026</div></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3><i class="fas fa-pagelines"></i> Ekosistem Hutan Tropis</h3></div>
+                <div class="card-body"><p>Hutan menyediakan oksigen, mencegah erosi, dan menjadi habitat ribuan spesies. Yuk kurangi penggunaan plastik dan mulai daur ulang kertas di sekolah.</p></div>
+            </div>
+            <div class="card">
+                <div class="card-header"><h3><i class="fas fa-newspaper"></i> Eskul Jurnalistik & Seni Melukis Kata</h3></div>
+                <div class="card-body"><p>Sinergi penulis dan ilustrator menghasilkan buletin apik. Menulis adalah melukis kata, menggambar adalah puisi visual. Tim redaksi berkolaborasi menghasilkan Tunas Cendikia edisi III.</p><button class="read-more" onclick="alert('Pendaftaran eskul setiap awal semester.')">Gabung eskul <i class="fas fa-paintbrush"></i></button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============== EDISI 2 : PRESTASI GEMILANG (EMAS) ============= -->
+    <div id="edisiPrestasi" class="edisi-content tema-prestasi">
+        <div class="subjudul-edisi"><i class="fas fa-award"></i> KEPAK SAYAP SANG JUARA 2024-2025</div>
+        <div class="grid-prestasi">
+            <div class="card"><div class="card-header"><h3>🥇 Juara 1 Tegal Karnival</h3></div><div class="card-body">Syafira Ulfa dengan kostum astronot daur ulang botol plastik. Karya kreatif bimbingan Miss Yuni membawa pulang piala juara 1 tahun 2025.</div></div>
+            <div class="card"><div class="card-header"><h3>🏅 Bakyak & Tari</h3></div><div class="card-body">Lomba bakyak tingkat kota penuh tawa & kekompakan. Juara 2 Pekan Seni cabang tari oleh Daffa & Rasya (2024).</div></div>
+            <div class="card"><div class="card-header"><h3>🩺 KKR Juara 3</h3></div><div class="card-body">Alika Naila Putri, hobi memasak, berhasil meraih Juara 3 lomba Kader Kesehatan Remaja 2024. Teliti & berpengetahuan.</div></div>
+            <div class="card"><div class="card-header"><h3>📖 FTBI Melimpah Juara</h3></div><div class="card-body">Abid Aqila (Juara 3 Dongeng Putra), Nabila Putri (Juara 3 Dongeng Putri), Raja Bayu (Juara 2 Cerkak 2024/2025), Muslim Risky (Juara 3 Aksara Jawa), Danisa (Juara 2 Stand Up Comedy). Spenlas unjuk gigi di FTBI.</div></div>
+            <div class="card"><div class="card-header"><h3>💃 Dance & Senam</h3></div><div class="card-body">Adelisa & Keyla Juara 3 Dance. Tim senam (Adelisa, Bintang, Amel, Nabila, Rizqi) meraih Juara 1 dan Penampil Terbaik setelah latihan 3 bulan.</div></div>
+            <div class="card"><div class="card-header"><h3>🥋 Pencak Silat Emas & Perunggu</h3></div><div class="card-body">World Tegal Champion II : Abdullah Rafi (Perunggu), Beningloi el Shinta (Emas), Dian Atitan (Emas). Luar biasa!</div></div>
+            <div class="card full-span"><div class="card-header"><h3>🎤 Prestasi Akademik & Non-Akademik</h3></div><div class="card-body">Selain lomba-lomba di atas, siswa Spenlas juga menorehkan juara OSN, lomba pidato, dan karya sastra. Disiplin dan dedikasi tinggi menjadi kunci. Bapak Sarbini bangga atas seluruh pencapaian.</div></div>
+        </div>
+    </div>
+
+    <!-- ============== EDISI 3 : KEPEMIMPINAN & ORGANISASI (BIRU) ============= -->
+    <div id="edisiLeader" class="edisi-content tema-leader">
+        <div class="subjudul-edisi"><i class="fas fa-hand-sparkles"></i> OSIS, PRAMUKA, TOKOH MUDA</div>
+        <div class="grid-leader">
+            <div class="card"><div class="card-header"><h3>🧑‍🎓 Ketua OSIS : Derryl Juan Mahardhika</h3></div><div class="card-body">Cita-cita Densus 88 Polri, hobi fotografi & belajar kritis. Moto: "Fortis Fortuna Adiuvat" (Keberuntungan berpihak pada yang berani). Alamat: Jl. Siklepuh Mejasem Barat. Pemimpin tegas & komunikatif.</div><div class="card-footer"><div class="penulis">— Wawancara tim redaksi</div></div></div>
+            <div class="card"><div class="card-header"><h3>🌸 Wakil Ketua OSIS : Kivayatul Azkiya</h3></div><div class="card-body">Lahir 01 September 2012, juara 1 bakyak, peringkat satu di kelas, cita-cita dokter. Moto: "Jangan takut gagal, kegagalan adalah batu loncatan." Rumah: Pengasinan, Maribaya.</div></div>
+            <div class="card"><div class="card-header"><h3>🏕️ Pratama Dewan Penggalang : Chrisfian Daffa</h3></div><div class="card-body">Pribadi tenang, disiplin, lahir 9 Sept 2011. Juara 3 tari tingkat Kota. Cita-cita CEO. Moto "Baik menjadi orang penting, lebih penting menjadi orang baik."</div></div>
+            <div class="card"><div class="card-header"><h3>✨ Pratami Dewan Penggalang : Nasywa Aulia</h3></div><div class="card-body">Hobi menonton film, pandai membuat cake & es krim. Cita-cita dokter forensik. Motto: "Tegas dalam keputusan, tenang dalam tindakan."</div></div>
+            <div class="card full-span"><div class="card-header"><h3>📢 OSIS : Jejak Penuh Makna</h3></div><div class="card-body">OSIS menyambut pagi di gerbang, mempersiapkan upacara, menggalang dana sosial. "Sekolah tanpa OSIS bagaikan taman tanpa bunga." Mereka juga sukseskan Paskibra, Ramadan berbagi takjil, dan menjadi jembatan aspirasi siswa. <button class="read-more" onclick="alert('Pendaftaran OSIS periode berikutnya dibuka untuk kelas 7 & 8.')">Gabung OSIS <i class="fas fa-users"></i></button></div></div>
+            <div class="card"><div class="card-header"><h3>⛺ Dewan Penggalang: Mandiri & Petualang</h3></div><div class="card-body">Latihan rutin, kemah, dan kegiatan kepramukaan membentuk jiwa kepemimpinan, kekompakan, dan kemandirian. Minat? Datangi latihan setiap Sabtu.</div></div>
+        </div>
+    </div>
+
+    <!-- ============== EDISI 4 : SASTRA & MOZAIK (MAROON) ============= -->
+    <div id="edisiSastra" class="edisi-content tema-sastra">
+        <div class="subjudul-edisi"><i class="fas fa-feather"></i> RUH KREATIVITAS & WARISAN ISLAM</div>
+        <div class="grid-sastra">
+            <div class="card"><div class="card-header"><h3>📖 Sedekah Bocah (Puisi)</h3></div><div class="card-body">"Kau beri seribu rupiah dengan senyum polos / Sedekah bocah tak pernah dihitung / Langit membalas berlipat..." — Puisi penuh makna ketulusan hati.</div><button class="read-more" onclick="alert('Puisi lengkap di buletin cetak halaman 28-29.')">Baca puisi <i class="fas fa-heart"></i></button></div>
+            <div class="card"><div class="card-header"><h3>💄 Perempuan Bergincu Merah (Cerpen)</h3></div><div class="card-body">Cerpen yang menggugah tentang keberanian, pilihan hidup, dan arti kecantikan sejati. "Gincu merah bukan hanya warna, tapi simbol keberanian bermimpi."</div></div>
+            <div class="card"><div class="card-header"><h3>🕌 Ilmuwan Muslim yang Mendunia</h3></div><div class="card-body">Al-Khawarizmi (Aljabar), Ibnu Sina (Kedokteran), Al-Biruni (Astronomi). Warisan emas Islam yang terus menginspirasi generasi Z. Yuk bangga dengan sejarah!</div></div>
+            <div class="card"><div class="card-header"><h3>🧩 Teka-Teki Silang (TTS)</h3></div><div class="card-body">Asah otak dengan TTS edisi spesial! Pertanyaan seputar pengetahuan umum, pahlawan, dan lingkungan. Kerjakan dan kumpulkan ke redaksi, hadiah menarik menanti.</div><button class="read-more" onclick="alert('Soal TTS : 1. Siapa penemu Aljabar? 2. Hewan apa yang bisa tidur selama 3 tahun? dll.')">Lihat soal TTS</button></div>
+            <div class="card full-span"><div class="card-header"><h3>🎨 Komik & Kotak Saran</h3></div><div class="card-body">Komik kocak karya komikus Derry di halaman 40. <strong>Kotak Saran yang Bisa Bercerita</strong> : ruang bagi siswa untuk menyampaikan ide dan kritik membangun untuk kemajuan Spenlas. Suaramu berharga!</div></div>
+            <div class="card"><div class="card-header"><h3>📜 Profil Guru & Staff TU</h3></div><div class="card-body">Terima kasih untuk seluruh guru dan tenaga kependidikan SMPN 11 Tegal yang membimbing dengan hati. Tanpa beliau, tak ada prestasi gemilang.</div></div>
+        </div>
+        <hr>
+        <div class="highlight"><i class="fas fa-star-of-life"></i> <strong>Mozaik Islam</strong> : juga tersedia rubrik Kisah Teladan & Doa-doa Harian. Jangan lewatkan halaman istimewa setiap edisi.</div>
+    </div>
+
+    <footer>
+        <i class="far fa-copyright"></i> Majalah Digital Tunas Cendikia - SMP Negeri 11 Kota Tegal <br>
+        Redaksi : Ruang OSIS Lt.2 | Kontak : majalah@spenlas.sch.id | <span class="badge-kepsek">Bapak Sarbini, S.Pd., M.Pd.</span> : "Edisi ini adalah bukti kreativitas tanpa batas. Teruslah berkarya!"
+    </footer>
+</div>
+
+<script>
+    const btns = document.querySelectorAll('.btn-edisi');
+    const contents = {
+        edisiAlam: document.getElementById('edisiAlam'),
+        edisiPrestasi: document.getElementById('edisiPrestasi'),
+        edisiLeader: document.getElementById('edisiLeader'),
+        edisiSastra: document.getElementById('edisiSastra')
+    };
+
+    function activateEdisi(edisiId) {
+        Object.values(contents).forEach(cont => {
+            if(cont) cont.classList.remove('active-edisi');
+        });
+        if(contents[edisiId]) contents[edisiId].classList.add('active-edisi');
+        btns.forEach(btn => {
+            btn.classList.remove('active');
+            if(btn.getAttribute('data-edisi') === edisiId) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-edisi');
+            if(id && contents[id]) activateEdisi(id);
+        });
+    });
+    // default edisi alam aktif
+    activateEdisi('edisiAlam');
+</script>
+</body>
+</html>
